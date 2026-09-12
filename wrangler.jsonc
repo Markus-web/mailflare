@@ -54,7 +54,11 @@
 		"enabled": true,
 	},
 	"vars": {
-		"ALLOW_PUBLIC_REGISTER": "true",
+		// Kotisivu.org webmail is admin-provisioned (paid Pro add-on) — mailboxes
+		// are created manually via Admin -> Accounts / Tuki ticket. Keep public
+		// self-registration OFF to match the legal/pricing pages and avoid
+		// @kotisivu.org impersonation. Landing then shows login only.
+		"ALLOW_PUBLIC_REGISTER": "false",
 	},
 	"upload_source_maps": true,
 	"send_email": [
