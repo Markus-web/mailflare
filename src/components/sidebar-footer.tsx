@@ -28,15 +28,15 @@ export function SidebarFooter() {
         </button>
       )}
       <p className="px-1 text-[11px] text-neutral-400">
-        Powered by{" "}
         <a
-          href={`https://mailflare.co/?ref=${typeof window !== "undefined" ? location.hostname : ""}&v=${packageJson.version}`}
+          href="https://kotisivu.org"
           target="_blank"
           className="hover:underline text-neutral-500"
           rel="noreferrer"
         >
-          Mailflare v{packageJson.version}
-        </a>
+          Kotisivu Webmail
+        </a>{" "}
+        v{packageJson.version}
       </p>
     </div>
   );
