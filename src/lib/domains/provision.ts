@@ -26,7 +26,7 @@ export async function provisionDomainOnCloudflare(
 	}
 
 	const enableRouting = options?.enableRouting ?? true;
-	const enableSending = options?.enableSending ?? true;
+	let enableSending = options?.enableSending ?? true;
 
 	let routingEnabled = false;
 	let sendingEnabled = false;
@@ -82,6 +82,7 @@ export async function provisionDomainOnCloudflare(
 				error,
 			);
 			sendingEnabled = false;
+			enableSending = false;
 		}
 	}
 

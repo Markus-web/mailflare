@@ -114,7 +114,12 @@ export async function getDomainDns(
 	const [routingDns, routingSettings, sendingSubdomains] = await Promise.all([
 		getEmailRoutingDns(env, domain.zoneId),
 		getEmailRoutingSettings(env, domain.zoneId),
-		shouldInspectSending ? listSendingSubdomains(env, domain.zoneId) : [],
+		shouldInspectSending
+			? listSendingSubdomains(env, domain.zoneId).catch((error) => {
+					console.warn("getDomainDns: listSendingSubdomains failed", error);
+					return [];
+				})
+			: Promise.resolve([]),
 	]);
 	const sendingSubdomain = findSendingSubdomain(domain.hostname, sendingSubdomains);
 	let sending: CfDnsRecord[] = [];
