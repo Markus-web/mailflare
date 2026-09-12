@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { hasAdminAccount } from "@/lib/auth/setup";
+import { isPublicRegisterEnabled } from "@/lib/auth/public-register";
 import { getEnv } from "@/lib/cloudflare";
 import { getPrimaryDomain } from "@/lib/user";
 
@@ -10,9 +11,11 @@ export async function GET() {
 			hasAdminAccount(env),
 			getPrimaryDomain(env),
 		]);
+		const publicRegisterEnabled = isPublicRegisterEnabled(env) && adminAccountExists && !!domain;
 		return NextResponse.json({
 			hasAdminAccount: adminAccountExists,
 			hasPrimaryDomain: !!domain,
+			publicRegisterEnabled,
 			primaryDomain: domain
 				? { hostname: domain.hostname, sendingRequested: domain.sendingRequested }
 				: null,

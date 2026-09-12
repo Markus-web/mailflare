@@ -100,5 +100,10 @@
     "@esbuild-kit/core-utils": {
       "esbuild": "^0.25.4"
     }
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "workerd": true,
+    "unrs-resolver": true
   }
 }

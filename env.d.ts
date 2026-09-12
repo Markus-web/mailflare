@@ -19,6 +19,7 @@ interface CloudflareEnv {
 	CF_API_KEY?: string;
 	CF_EMAIL?: string;
 	TURNSTILE_SECRET_KEY?: string;
+	ALLOW_PUBLIC_REGISTER?: string;
 	GITHUB_UPDATE_TOKEN?: string;
 	GITHUB_UPDATE_REF?: string;
 	GITHUB_UPDATE_REPO?: string

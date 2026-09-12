@@ -53,6 +53,9 @@
 	"observability": {
 		"enabled": true,
 	},
+	"vars": {
+		"ALLOW_PUBLIC_REGISTER": "true",
+	},
 	"upload_source_maps": true,
 	"send_email": [
 		{
