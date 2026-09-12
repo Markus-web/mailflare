@@ -22,19 +22,43 @@ export async function ensureEmailRoutingCatchAllToWorker(
 	zoneId: string,
 ): Promise<CfEmailRoutingRule> {
 	const workerName = getEmailWorkerName();
-	return cfRequest<CfEmailRoutingRule>(
-		env,
-		`/zones/${zoneId}/email/routing/rules/catch_all`,
-		{
-			method: "PUT",
-			body: JSON.stringify({
-				actions: [{ type: "worker", value: [workerName] }],
-				enabled: true,
-				matchers: [{ type: "all" }],
-				name: `Route all email to ${workerName}`,
-			}),
-		},
-	);
+	try {
+		return await cfRequest<CfEmailRoutingRule>(
+			env,
+			`/zones/${zoneId}/email/routing/rules/catch_all`,
+			{
+				method: "PUT",
+				body: JSON.stringify({
+					actions: [{ type: "worker", value: [workerName] }],
+					enabled: true,
+					matchers: [{ type: "all" }],
+					name: `Route all email to ${workerName}`,
+				}),
+			},
+		);
+	} catch (error) {
+		// Token may lack Email Routing Rules Edit (common with DNS-only tokens).
+		// Operator can set catch-all via Wrangler OAuth / dash; do not abort mailbox create.
+		const existing = await getEmailRoutingCatchAll(env, zoneId);
+		if (existing) {
+			console.warn(
+				"ensureEmailRoutingCatchAllToWorker: CF_TOKEN cannot update catch-all; keeping existing rule",
+				error,
+			);
+			return existing;
+		}
+		console.warn(
+			"ensureEmailRoutingCatchAllToWorker: CF_TOKEN cannot update catch-all; assuming operator-managed routing",
+			error,
+		);
+		return {
+			id: "operator-managed",
+			name: `Route all email to ${workerName}`,
+			enabled: true,
+			matchers: [{ type: "all" }],
+			actions: [{ type: "worker", value: [workerName] }],
+		} as CfEmailRoutingRule;
+	}
 }
 
 /**

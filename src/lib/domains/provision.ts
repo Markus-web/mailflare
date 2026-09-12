@@ -64,16 +64,24 @@ export async function provisionDomainOnCloudflare(
 	}
 
 	if (enableSending) {
-		const subs = await listSendingSubdomains(env, zone.id);
-		const existingSub = subs.find((s) => s.name === normalized);
-		if (existingSub) {
-			sendingSubdomainTag = existingSub.tag;
-			sendingEnabled = existingSub.enabled;
-		} else {
-			const created = await createSendingSubdomain(env, zone.id, normalized);
-			sendingSubdomainTag = created.tag;
-			sendingEnabled = created.enabled;
-			changes.createdSendingSubdomainTag = created.tag;
+		try {
+			const subs = await listSendingSubdomains(env, zone.id);
+			const existingSub = subs.find((s) => s.name === normalized);
+			if (existingSub) {
+				sendingSubdomainTag = existingSub.tag;
+				sendingEnabled = existingSub.enabled;
+			} else {
+				const created = await createSendingSubdomain(env, zone.id, normalized);
+				sendingSubdomainTag = created.tag;
+				sendingEnabled = created.enabled;
+				changes.createdSendingSubdomainTag = created.tag;
+			}
+		} catch (error) {
+			console.warn(
+				"provisionDomainOnCloudflare: CF_TOKEN cannot configure Email Sending; receive-only until operator enables sending",
+				error,
+			);
+			sendingEnabled = false;
 		}
 	}
 

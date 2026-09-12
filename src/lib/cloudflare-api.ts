@@ -210,28 +210,43 @@ export async function ensureEmailRoutingRuleToWorker(
 ) {
 	const normalized = address.toLowerCase();
 	const workerName = getEmailWorkerName();
-	const rules = await listEmailRoutingRules(env, zoneId);
-	const existing = rules.find((rule) => isWorkerRouteForAddress(rule, normalized, workerName));
+	try {
+		const rules = await listEmailRoutingRules(env, zoneId);
+		const existing = rules.find((rule) => isWorkerRouteForAddress(rule, normalized, workerName));
 
-	if (existing?.enabled) return existing;
-	if (existing?.id) {
-		return cfRequest<CfEmailRoutingRule>(
-			env,
-			`/zones/${zoneId}/email/routing/rules/${existing.id}`,
-			{
-				method: "PUT",
-				body: JSON.stringify({
-					actions: [{ type: "worker", value: [workerName] }],
-					enabled: true,
-					matchers: [{ type: "literal", field: "to", value: normalized }],
-					name: existing.name ?? `Route ${normalized} to ${workerName}`,
-					priority: existing.priority,
-				}),
-			},
+		if (existing?.enabled) return existing;
+		if (existing?.id) {
+			return cfRequest<CfEmailRoutingRule>(
+				env,
+				`/zones/${zoneId}/email/routing/rules/${existing.id}`,
+				{
+					method: "PUT",
+					body: JSON.stringify({
+						actions: [{ type: "worker", value: [workerName] }],
+						enabled: true,
+						matchers: [{ type: "literal", field: "to", value: normalized }],
+						name: existing.name ?? `Route ${normalized} to ${workerName}`,
+						priority: existing.priority,
+					}),
+				},
+			);
+		}
+
+		return await createEmailRoutingRuleToWorker(env, zoneId, normalized);
+	} catch (error) {
+		console.warn(
+			"ensureEmailRoutingRuleToWorker: CF_TOKEN cannot manage rules; assuming operator-managed routing for",
+			normalized,
+			error,
 		);
+		return {
+			id: "operator-managed",
+			name: `Route ${normalized} to ${workerName}`,
+			enabled: true,
+			matchers: [{ type: "literal", field: "to", value: normalized }],
+			actions: [{ type: "worker", value: [workerName] }],
+		} as CfEmailRoutingRule;
 	}
-
-	return createEmailRoutingRuleToWorker(env, zoneId, normalized);
 }
 
 export async function deleteEmailRoutingRuleForAddress(

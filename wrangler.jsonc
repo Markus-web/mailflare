@@ -57,13 +57,14 @@
 	"send_email": [
 		{
 			"name": "EMAIL",
-			"remote": false,
+			"remote": true,
 		},
 	],
 	"d1_databases": [
 		{
 			"binding": "DB",
 			"database_name": "mailflare",
+			"database_id": "2da5fb96-1b3e-457d-a394-b4e0a63394c8",
 			"migrations_dir": "drizzle/migrations",
 		},
 	],
