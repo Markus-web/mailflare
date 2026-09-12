@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Mailflare",
-	description: "Multi-tenant email on Cloudflare",
+	title: "Kotisivu Webmail",
+	description: "Kotisivu.org webmail",
 	icons: { icon: "/api/branding/icon" },
 };
 
