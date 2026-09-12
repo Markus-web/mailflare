@@ -224,12 +224,12 @@ export function MessageActions({
 		<div className="flex items-center gap-3 text-neutral-600">
 			{error && <span className="text-xs text-red-600">{error}</span>}
 			<div className="flex items-center gap-2">
-				<Tooltip label={shortcutsEnabled ? "Reply (r)" : "Reply"}>
+				<Tooltip label={shortcutsEnabled ? "Vastaa (r)" : "Vastaa"}>
 					<Button
 						type="button"
 						variant="ghost"
 						size="sm"
-						aria-label={shortcutsEnabled ? "Reply (r)" : "Reply"}
+						aria-label={shortcutsEnabled ? "Vastaa (r)" : "Vastaa"}
 						disabled={disabled}
 						onClick={() => handleReply("reply")}
 					>
@@ -237,12 +237,12 @@ export function MessageActions({
 					</Button>
 				</Tooltip>
 				{canReplyAll && (
-					<Tooltip label="Reply all">
+					<Tooltip label="Vastaa kaikille">
 						<Button
 							type="button"
 							variant="ghost"
 							size="sm"
-							aria-label="Reply all"
+							aria-label="Vastaa kaikille"
 							disabled={disabled}
 							onClick={() => handleReply("replyAll")}
 						>
@@ -251,12 +251,12 @@ export function MessageActions({
 					</Tooltip>
 				)}
 				{message && messageMeta && (
-					<Tooltip label="Forward">
+					<Tooltip label="Välitä">
 						<Button
 							type="button"
 							variant="ghost"
 							size="sm"
-							aria-label="Forward"
+							aria-label="Välitä"
 							disabled={disabled}
 							onClick={() => void handleForward()}
 						>
@@ -264,33 +264,33 @@ export function MessageActions({
 						</Button>
 					</Tooltip>
 				)}
-				<Tooltip label={shortcutsEnabled ? "Archive (e)" : "Archive"}>
+				<Tooltip label={shortcutsEnabled ? "Arkistoi (e)" : "Arkistoi"}>
 					<Button
 						variant="ghost"
 						size="sm"
-						aria-label={shortcutsEnabled ? "Archive (e)" : "Archive"}
+						aria-label={shortcutsEnabled ? "Arkistoi (e)" : "Arkistoi"}
 						disabled={disabled || status === "archived"}
 						onClick={() => runAction("archive")}
 					>
 						<Archive className="h-5 w-5" />
 					</Button>
 				</Tooltip>
-				<Tooltip label={shortcutsEnabled ? "Report spam (!)" : "Report spam"}>
+				<Tooltip label={shortcutsEnabled ? "Ilmoita roskapostiksi (!)" : "Ilmoita roskapostiksi"}>
 					<Button
 						variant="ghost"
 						size="sm"
-						aria-label={shortcutsEnabled ? "Report spam (!)" : "Report spam"}
+						aria-label={shortcutsEnabled ? "Ilmoita roskapostiksi (!)" : "Ilmoita roskapostiksi"}
 						disabled={disabled || status === "spam" || direction !== "inbound"}
 						onClick={() => runAction("spam")}
 					>
 						<ShieldAlert className="h-5 w-5" />
 					</Button>
 				</Tooltip>
-				<Tooltip label={shortcutsEnabled ? "Delete (#)" : "Delete"}>
+				<Tooltip label={shortcutsEnabled ? "Poista (#)" : "Poista"}>
 					<Button
 						variant="ghost"
 						size="sm"
-						aria-label={shortcutsEnabled ? "Move to trash (#)" : "Move to trash"}
+						aria-label={shortcutsEnabled ? "Siirrä roskakoriin (#)" : "Siirrä roskakoriin"}
 						disabled={disabled || status === "trash"}
 						onClick={() => runAction("trash")}
 					>

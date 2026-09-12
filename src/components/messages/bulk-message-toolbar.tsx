@@ -61,7 +61,7 @@ export function BulkMessageToolbar({
 							event.target.value = "";
 						}}
 					>
-						<option value="">Move to</option>
+						<option value="">Siirrä</option>
 						<option value="archive">Archived</option>
 						<option value="spam">Spam</option>
 						<option value="trash">Trash</option>

@@ -33,7 +33,7 @@ export function LoginClient() {
     try {
       const { ok, data } = await submitLogin(new FormData(e.currentTarget));
       if (!ok) {
-        setError(data.error ?? "Login failed");
+        setError(data.error ?? "Kirjautuminen epäonnistui");
         setTurnstileReset((value) => value + 1);
         return;
       }
@@ -45,8 +45,8 @@ export function LoginClient() {
     } catch (error) {
       setError(
         error instanceof DOMException && error.name === "TimeoutError"
-          ? "Login timed out. Please try again."
-          : "Unable to reach the login service. Please try again.",
+          ? "Kirjautumisen aikakatkaisu. Yritä uudelleen."
+          : "Kirjautumispalvelua ei voitu tavoittaa. Yritä uudelleen.",
       );
       setTurnstileReset((value) => value + 1);
     } finally {
@@ -62,7 +62,7 @@ export function LoginClient() {
     try {
       const { ok, data } = await submitMfaCode(challengeToken, code);
       if (!ok) {
-        setError(data.error ?? "That code did not match");
+        setError(data.error ?? "Koodi ei vastannut");
         // An expired challenge sends the user back to the password step.
         if (data.error?.includes("expired")) {
           setChallengeToken(null);
@@ -72,7 +72,7 @@ export function LoginClient() {
       }
       finish(data.redirect);
     } catch {
-      setError("Unable to reach the login service. Please try again.");
+      setError("Kirjautumispalvelua ei voitu tavoittaa. Yritä uudelleen.");
     } finally {
       setLoading(false);
     }
@@ -82,12 +82,12 @@ export function LoginClient() {
     return (
       <AuthShell
         icon={ShieldCheck}
-        title="Two-factor authentication"
-        description="Enter the 6-digit code from your authenticator app, or one of your recovery codes."
+        title="Kaksivaiheinen tunnistautuminen"
+        description="Syötä todennusohjelman 6-numeroinen koodi tai jokin palautuskoodeistasi."
       >
         <form onSubmit={onSubmitCode} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="code">Code</Label>
+            <Label htmlFor="code">Koodi</Label>
             <Input
               id="code"
               name="code"
@@ -106,7 +106,7 @@ export function LoginClient() {
             </p>
           )}
           <Button type="submit" className="h-11 w-full rounded-full px-6 active:scale-[0.98]" disabled={loading}>
-            {loading ? "Verifying..." : "Verify"}
+            {loading ? "Tarkistetaan..." : "Vahvista"}
           </Button>
           <button
             type="button"
@@ -117,7 +117,7 @@ export function LoginClient() {
               setError(null);
             }}
           >
-            Back to sign in
+            Takaisin kirjautumiseen
           </button>
         </form>
       </AuthShell>
@@ -127,12 +127,12 @@ export function LoginClient() {
   return (
     <AuthShell
       icon={Mail}
-      title="Sign in"
-      description="Open your mailbox and continue from the same inbox workspace."
+      title="Kirjaudu"
+      description="Avaa postilaatikkosi ja jatka samasta Saapuneet-näkymästä."
     >
       <form method="post" onSubmit={onSubmit} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Sähköposti</Label>
           <Input
             id="email"
             name="email"
@@ -143,9 +143,9 @@ export function LoginClient() {
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Salasana</Label>
             <Link href="/forgot-password" className="text-xs font-medium text-blue-600 hover:underline">
-              Forgot password?
+              Unohditko salasanasi?
             </Link>
           </div>
           <Input
@@ -167,7 +167,7 @@ export function LoginClient() {
           className="h-11 w-full rounded-full px-6 active:scale-[0.98]"
           disabled={loading}
         >
-          {loading ? "Signing in..." : "Sign in"}
+          {loading ? "Kirjaudutaan..." : "Kirjaudu"}
         </Button>
       </form>
     </AuthShell>

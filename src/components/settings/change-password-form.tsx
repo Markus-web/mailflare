@@ -39,7 +39,7 @@ export function ChangePasswordForm() {
 	return (
 		<form onSubmit={onSubmit} className="space-y-4">
 			<div className="space-y-2">
-				<Label htmlFor="currentPassword">Current password</Label>
+				<Label htmlFor="currentPassword">Nykyinen salasana</Label>
 				<Input
 					id="currentPassword"
 					type="password"
@@ -50,7 +50,7 @@ export function ChangePasswordForm() {
 				/>
 			</div>
 			<div className="space-y-2">
-				<Label htmlFor="newPassword">New password</Label>
+				<Label htmlFor="newPassword">Uusi salasana</Label>
 				<Input
 					id="newPassword"
 					type="password"
@@ -62,7 +62,7 @@ export function ChangePasswordForm() {
 				/>
 			</div>
 			<div className="space-y-2">
-				<Label htmlFor="confirmPassword">Confirm new password</Label>
+				<Label htmlFor="confirmPassword">Vahvista uusi salasana</Label>
 				<Input
 					id="confirmPassword"
 					type="password"

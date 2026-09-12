@@ -417,7 +417,7 @@ export function ComposeForm({
 						className="h-8 px-0 py-1 text-sm shadow-none focus-visible:ring-0"
 						containerClassName="border-0 flex-1"
 					>
-						{senderOptions.length === 0 && <option value="">Select a mailbox first</option>}
+						{senderOptions.length === 0 && <option value="">Valitse ensin postilaatikko</option>}
 						{senderOptions.map(({ mailbox, address }) => (
 							<option key={`${mailbox.id}|${address}`} value={`${mailbox.id}|${address}`}>{address}</option>
 						))}
@@ -425,22 +425,22 @@ export function ComposeForm({
 				</div>
 				<RecipientInput
 					id={`${mode}-to`}
-					label="To"
+					label="Vastaanottaja"
 					value={to}
 					onChange={setTo}
-					placeholder='Recipients, or "Maya Chen" <maya@example.com>'
+					placeholder='Vastaanottajat, esim. "Maija Meikäläinen" <maija@esimerkki.fi>'
 					required
 					disabled={loadingDraft}
 					trailing={
 						<>
 							{!showCc && (
 								<button type="button" className="rounded px-1 hover:text-neutral-800" onClick={() => setShowCc(true)}>
-									Cc
+									Kopio
 								</button>
 							)}
 							{!showBcc && (
 								<button type="button" className="rounded px-1 hover:text-neutral-800" onClick={() => setShowBcc(true)}>
-									Bcc
+									Piilokopio
 								</button>
 							)}
 						</>
@@ -449,10 +449,10 @@ export function ComposeForm({
 				{showCc && (
 					<RecipientInput
 						id={`${mode}-cc`}
-						label="Cc"
+						label="Kopio"
 						value={cc}
 						onChange={setCc}
-						placeholder="Carbon copy"
+						placeholder="Kopio"
 						disabled={loadingDraft}
 						autoFocus={!loadingDraft && cc.length === 0}
 					/>
@@ -460,34 +460,34 @@ export function ComposeForm({
 				{showBcc && (
 					<RecipientInput
 						id={`${mode}-bcc`}
-						label="Bcc"
+						label="Piilokopio"
 						value={bcc}
 						onChange={setBcc}
-						placeholder="Blind carbon copy, hidden from other recipients"
+						placeholder="Piilokopio, piilossa muilta vastaanottajilta"
 						disabled={loadingDraft}
 						autoFocus={!loadingDraft && bcc.length === 0}
 					/>
 				)}
 				<div className="border-b border-neutral-100 px-4 py-1">
-					<Label htmlFor={`${mode}-subject`} className="sr-only">Subject</Label>
+					<Label htmlFor={`${mode}-subject`} className="sr-only">Aihe</Label>
 					<Input
 						id={`${mode}-subject`}
 						value={subject}
 						onChange={(event) => setSubject(event.target.value)}
-						placeholder="Subject"
+						placeholder="Aihe"
 						required
 						disabled={loadingDraft}
 						className="h-8 border-0 px-0 py-1 shadow-none focus-visible:ring-0"
 					/>
 				</div>
-				<Label htmlFor={`${mode}-text`} className="sr-only">Body</Label>
+				<Label htmlFor={`${mode}-text`} className="sr-only">Viesti</Label>
 				<RichTextEditor
 					id={`${mode}-text`}
 					value={html}
 					onChange={setHtml}
 					quotedHtml={quotedHtml}
 					disabled={loadingDraft}
-					placeholder="Write your message"
+					placeholder="Kirjoita viestisi"
 					toolbarStart={
 						<>
 							<div className="flex items-center">
@@ -497,7 +497,7 @@ export function ComposeForm({
 									disabled={loading || loadingDraft || !fromAddr}
 									className="rounded-r-none px-4"
 								>
-									{loading ? "Sending" : scheduledAt ? "Schedule" : "Send"}
+									{loading ? "Lähetetään" : scheduledAt ? "Ajoita" : "Lähetä"}
 								</Button>
 								<ScheduleSendMenu
 									disabled={loading || loadingDraft || !fromAddr}

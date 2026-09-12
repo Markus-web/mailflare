@@ -21,32 +21,32 @@ import { useSidebar } from "./sidebar-state";
 
 const sections = [
   {
-    // label: "Overview",
-    links: [{ href: "/admin", label: "Overview", icon: Settings }],
+    // label: "Yleiskatsaus",
+    links: [{ href: "/admin", label: "Yleiskatsaus", icon: Settings }],
   },
   {
-    label: "Email",
+    label: "Sähköposti",
     links: [
-      { href: "/mailboxes", label: "Mailboxes", icon: Mail },
-      { href: "/domains", label: "Domains", icon: Globe2 },
-      { href: "/routing", label: "Routing", icon: Route },
-      { href: "/webhooks", label: "Webhooks", icon: Webhook },
+      { href: "/mailboxes", label: "Postilaatikot", icon: Mail },
+      { href: "/domains", label: "Verkkotunnukset", icon: Globe2 },
+      { href: "/routing", label: "Reititys", icon: Route },
+      { href: "/webhooks", label: "Webhookit", icon: Webhook },
     ],
   },
   {
-    label: "Administration",
+    label: "Hallinto",
     links: [
-      { href: "/accounts", label: "Accounts", icon: Users },
-      { href: "/activity", label: "Activity", icon: Activity },
-      { href: "/backups", label: "Backups", icon: DatabaseBackup },
+      { href: "/accounts", label: "Tilit", icon: Users },
+      { href: "/activity", label: "Tapahtumat", icon: Activity },
+      { href: "/backups", label: "Varmuuskopiot", icon: DatabaseBackup },
     ],
   },
   {
-    label: "Product",
+    label: "Tuote",
     links: [
-      { href: "/branding", label: "Branding", icon: Palette },
-      { href: "/licenses", label: "Licenses", icon: BadgeDollarSign },
-      // { href: "/api-keys", label: "API Keys", icon: KeyRound },
+      { href: "/branding", label: "Brändäys", icon: Palette },
+      { href: "/licenses", label: "Lisenssit", icon: BadgeDollarSign },
+      // { href: "/api-keys", label: "API-avaimet", icon: KeyRound },
     ],
   },
 ];
@@ -57,7 +57,7 @@ export function AdminNav({ className }: { className?: string }) {
 
   return (
     <nav className={cn("flex min-h-full flex-col gap-1", className)}>
-      <SidebarHeader href="/inbox" label="Admin" />
+      <SidebarHeader href="/inbox" label="Ylläpito" />
       <div className={cn("space-y-4", minimal && "space-y-2")}>
         {sections.map((section) => {
           const links = section.links.filter(

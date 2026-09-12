@@ -2,32 +2,32 @@ import type { SettingsNavSection } from "./settings-nav-types";
 
 export const settingsNavSections: SettingsNavSection[] = [
 	{
-		label: "Settings",
+		label: "Asetukset",
 		items: [
 			{
 				href: "/settings/account",
-				label: "Account",
+				label: "Tili",
 			},
 			{
 				href: "/settings/inbox",
-				label: "Inbox",
+				label: "Saapuneet",
 			},
 			{
 				href: "/settings/rules",
-				label: "Rules & Routing",
+				label: "Säännöt ja reititys",
 			},
 		],
 	},
 	{
-		label: "Mailbox",
+		label: "Postilaatikko",
 		items: [
 			{
 				href: "/settings/import",
-				label: "Import",
+				label: "Tuonti",
 			},
 			{
 				href: "/settings/export",
-				label: "Export",
+				label: "Vienti",
 			},
 		],
 	},
