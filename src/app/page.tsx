@@ -30,32 +30,35 @@ export default function HomePage() {
   }, []);
 
   const actions = getHomeActions(hasUser);
+  const appName = branding.appName === "Mailflare" ? "Kotisivu Webmail" : branding.appName;
 
   return (
-    <div className="min-h-dvh bg-[#f6f8fc] text-neutral-900">
+    <div className="min-h-dvh bg-[#f3efe6] text-[#1a1a1a]">
       <header className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="flex items-center gap-3"
-          aria-label="Email Platform home"
+          aria-label="Kotisivu Webmail"
         >
           <img src={branding.iconUrl} height={32} width={32} alt="" />
-          <span className="text-base font-semibold tracking-tight">
-            {branding.appName}
-          </span>
+          <span className="text-base font-semibold tracking-tight">{appName}</span>
         </Link>
 
-        {/* <nav className="hidden items-center gap-6 text-sm font-medium text-neutral-600 md:flex">
-					{landingNavItems.map((item) => (
-						<a key={item.href} href={item.href} className="transition-colors hover:text-neutral-950">
-							{item.label}
-						</a>
-					))}
-				</nav> */}
-
         <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            asChild
+            className="rounded-xl border-[#756b5c]/40 bg-white hover:bg-[#ebe4d6]"
+          >
+            <a href="https://kotisivu.org/hinnasto/">Hinnasto</a>
+          </Button>
           {actions.map((action) => (
-            <Button key={action.href} variant={action.variant} asChild>
+            <Button
+              key={action.href}
+              variant={action.variant}
+              asChild
+              className="rounded-xl bg-[#e4ae20] text-[#301018] hover:bg-[#3e5641] hover:text-[#f0f0f0]"
+            >
               <Link href={action.href}>{action.label}</Link>
             </Button>
           ))}
@@ -65,21 +68,27 @@ export default function HomePage() {
       <main>
         <section className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 pb-12 pt-8 sm:px-6 md:pt-16 lg:grid-cols-[0.86fr_1.14fr] lg:px-8">
           <div className="flex max-w-2xl flex-col justify-center">
-            <div className="mb-6 flex w-fit items-center gap-2 text-sm font-medium text-blue-800">
+            <div className="mb-6 flex w-fit items-center gap-2 text-sm font-medium text-[#004d61]">
               <ShieldCheck className="h-4 w-4" />
-              Cloudflare-native email operations
+              Vain Pro-asiakkaille ja ylläpidolle
             </div>
-            <h1 className="max-w-[12ch] text-5xl font-semibold leading-[0.96] tracking-tight text-neutral-950 sm:text-6xl lg:text-7xl">
-              Mailboxes that feel like your inbox.
+            <h1 className="max-w-[14ch] text-5xl font-semibold leading-[0.96] tracking-tight text-[#1a1a1a] sm:text-6xl lg:text-7xl">
+              Kotisivu.org webmail
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-neutral-600">
-              Add domains, route inbound mail, send through API keys, and manage
-              your mailboxes from one quiet workspace built around the message list.
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[#3e5641]">
+              Oma postilaatikko Cloudflare Email Routingin päällä. Julkista
+              rekisteröintiä ei ole: laatikko avataan tukitiketin jälkeen
+              (alk. 15 €/kk). WordPress-ilmoitukset kulkevat edelleen
+              postitus.kotisivu.org -osoitteesta.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" asChild className="rounded-full px-6">
-                <Link href={actions.at(-1)?.href ?? "/setup"}>
-                  {hasUser ? "Open dashboard" : "Create account"}
+              <Button
+                size="lg"
+                asChild
+                className="rounded-xl bg-[#e4ae20] px-6 text-[#301018] hover:bg-[#3e5641] hover:text-[#f0f0f0]"
+              >
+                <Link href={hasUser ? "/inbox" : "/login"}>
+                  {hasUser ? "Avaa postilaatikko" : "Kirjaudu"}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -87,25 +96,23 @@ export default function HomePage() {
                 size="lg"
                 variant="outline"
                 asChild
-                className="rounded-full border-neutral-200 bg-white px-6"
+                className="rounded-xl border-[#756b5c]/40 bg-white px-6 hover:bg-[#ebe4d6]"
               >
-                <Link href={hasUser ? "/inbox" : "/login"}>
-                  {hasUser ? "View inbox" : "Log in"}
-                </Link>
+                <a href="https://kotisivu.org/tuki/">Tilaa tukitiketin kautta</a>
               </Button>
             </div>
           </div>
 
-          <div className="relative min-h-[520px] overflow-hidden rounded-[2rem] border border-white bg-white shadow-[0_24px_70px_-45px_rgba(30,64,175,0.55)]">
-            <div className="grid h-full min-h-[520px] grid-cols-[176px_1fr] bg-white">
-              <aside className="hidden flex-col gap-2 bg-[#f6f8fc] px-3 py-5 sm:flex">
-                <div className="mb-4 flex items-center gap-3 px-3 text-neutral-700">
+          <div className="relative min-h-[480px] overflow-hidden rounded-[2px] border-2 border-[#8a6a0c] bg-[#fff8ee] shadow-[0_6px_0_rgba(10,32,40,0.12)]">
+            <div className="grid h-full min-h-[480px] grid-cols-[176px_1fr] bg-[#fff8ee]">
+              <aside className="hidden flex-col gap-2 bg-[#ebe4d6] px-3 py-5 sm:flex">
+                <div className="mb-4 flex items-center gap-3 px-3 text-[#1a1a1a]">
                   <Inbox className="h-5 w-5" />
-                  <span className="font-semibold">Mail</span>
+                  <span className="font-semibold">Posti</span>
                 </div>
-                <div className="mb-3 flex h-12 w-fit items-center gap-2 rounded-2xl bg-blue-100 px-5 text-sm font-semibold text-blue-950 shadow-sm">
+                <div className="mb-3 flex h-12 w-fit items-center gap-2 rounded-[2px] bg-[#e4ae20] px-5 text-sm font-semibold text-[#301018] shadow-sm">
                   <Mail className="h-4 w-4" />
-                  Compose
+                  Kirjoita
                 </div>
                 {sidebarItems.map((item) => {
                   const Icon = item.icon;
@@ -114,8 +121,8 @@ export default function HomePage() {
                       key={item.label}
                       className={`flex h-9 items-center justify-between rounded-r-full px-3 text-sm font-medium ${
                         item.active
-                          ? "bg-blue-100 text-blue-950"
-                          : "text-neutral-600"
+                          ? "bg-[#004d61] text-[#f0f0f0]"
+                          : "text-[#3e5641]"
                       }`}
                     >
                       <span className="flex items-center gap-3">
@@ -123,9 +130,7 @@ export default function HomePage() {
                         {item.label}
                       </span>
                       {item.count && (
-                        <span className="text-xs text-blue-800">
-                          {item.count}
-                        </span>
+                        <span className="text-xs opacity-80">{item.count}</span>
                       )}
                     </div>
                   );
@@ -133,50 +138,37 @@ export default function HomePage() {
               </aside>
 
               <div className="col-span-2 flex min-w-0 flex-col sm:col-span-1">
-                <div className="flex h-16 items-center gap-3 bg-[#f6f8fc] px-4">
-                  <div className="flex h-12 flex-1 items-center gap-3 rounded-full bg-[#eaf1fb] px-4 text-neutral-600">
+                <div className="flex h-16 items-center gap-3 bg-[#ebe4d6] px-4">
+                  <div className="flex h-12 flex-1 items-center gap-3 rounded-[2px] bg-white px-4 text-[#3e5641]">
                     <Search className="h-5 w-5" />
-                    <span className="text-[15px]">Search mail</span>
-                  </div>
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                    <Mail className="h-4 w-4" />
+                    <span className="text-[15px]">Hae viestejä</span>
                   </div>
                 </div>
 
-                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-tl-3xl bg-white">
-                  <div className="flex h-14 items-center justify-between border-b border-neutral-200 px-6">
-                    <div className="flex items-center gap-3">
-                      <h2 className="text-xl font-medium text-neutral-800">
-                        Priority inbox
-                      </h2>
-                      <span className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600">
-                        18
-                      </span>
-                    </div>
-                    <span className="hidden text-sm font-medium text-neutral-500 md:inline">
-                      Updated 2 min ago
-                    </span>
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#fff8ee]">
+                  <div className="flex h-14 items-center justify-between border-b border-[#756b5c]/30 px-6">
+                    <h2 className="text-xl font-medium text-[#1a1a1a]">Saapuneet</h2>
                   </div>
-                  <div className="divide-y divide-neutral-100">
+                  <div className="divide-y divide-[#756b5c]/20">
                     {heroMessages.map((message) => (
                       <div
                         key={message.sender}
-                        className="grid min-h-14 grid-cols-[28px_minmax(112px,180px)_1fr_auto] items-center gap-3 px-5 text-sm hover:bg-[#f2f6fc]"
+                        className="grid min-h-14 grid-cols-[28px_minmax(112px,180px)_1fr_auto] items-center gap-3 px-5 text-sm hover:bg-[#f3efe6]"
                       >
-                        <message.icon className="h-4 w-4 text-neutral-300" />
-                        <span className="truncate font-semibold text-neutral-900">
+                        <message.icon className="h-4 w-4 text-[#756b5c]" />
+                        <span className="truncate font-semibold text-[#1a1a1a]">
                           {message.sender}
                         </span>
-                        <span className="truncate text-neutral-600">
-                          <span className="font-medium text-neutral-900">
+                        <span className="truncate text-[#3e5641]">
+                          <span className="font-medium text-[#1a1a1a]">
                             {message.subject}
                           </span>
-                          <span className="hidden text-neutral-500 md:inline">
+                          <span className="hidden text-[#3e5641] md:inline">
                             {" "}
                             - {message.preview}
                           </span>
                         </span>
-                        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                        <span className="rounded-[2px] bg-[#004d61]/10 px-2.5 py-1 text-xs font-semibold text-[#004d61]">
                           {message.badge}
                         </span>
                       </div>
@@ -188,37 +180,20 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* <section id="workflow" className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 pb-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
-					<div id="api" className="rounded-[1.75rem] bg-white p-6 shadow-sm shadow-neutral-200/50">
-						<div className="mb-6 flex items-center justify-between gap-4">
-							<div>
-								<p className="text-sm font-semibold text-blue-700">Operational view</p>
-								<h2 className="mt-1 text-2xl font-semibold tracking-tight">From DNS to delivery in one place.</h2>
-							</div>
-							<Clock3 className="hidden h-6 w-6 text-neutral-400 sm:block" />
-						</div>
-						<div className="grid gap-4 sm:grid-cols-3">
-							{inboxStats.map((stat) => (
-								<div key={stat.label} className="border-t border-neutral-200 pt-4">
-									<p className="no-font-mono text-2xl font-semibold text-neutral-950">{stat.value}</p>
-									<p className="mt-1 text-sm text-neutral-500">{stat.label}</p>
-								</div>
-							))}
-						</div>
-					</div>
-
-					<div id="domains" className="rounded-[1.75rem] bg-white p-6 shadow-sm shadow-neutral-200/50">
-						<p className="text-sm font-semibold text-blue-700">Delivery signals</p>
-						<div className="mt-5 space-y-4">
-							{deliverySignals.map((signal) => (
-								<div key={signal} className="flex items-center gap-3 text-sm font-medium text-neutral-700">
-									<CheckCircle2 className="h-5 w-5 text-blue-600" />
-									<span>{signal}</span>
-								</div>
-							))}
-						</div>
-					</div>
-				</section> */}
+        <section className="border-t border-[#756b5c]/25 bg-[#1a1a1a] px-4 py-10 text-[#f0f0f0] sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-2xl text-sm leading-6 text-[#c9c9c9]">
+              Tarvitsetko postilaatikon? Avaa tiketti Kotisivu.orgissa (Pro).
+              Ylläpito luo tunnuksen Mailflareen.
+            </p>
+            <Button
+              asChild
+              className="rounded-xl bg-[#e4ae20] text-[#301018] hover:bg-[#ffe650]"
+            >
+              <a href="https://kotisivu.org/tuki/">Avaa Tuki</a>
+            </Button>
+          </div>
+        </section>
       </main>
     </div>
   );

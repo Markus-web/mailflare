@@ -2,14 +2,18 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Kotisivu.org brand tokens (match marketing child chrome) */
 :root {
-	--background: #f6f8fc;
-	--foreground: #202124;
-	--card: #ffffff;
-	--muted: #eef3fb;
-	--border: #dadce0;
-	--primary: #0b57d0;
-	--primary-foreground: #ffffff;
+	--background: #f3efe6;
+	--foreground: #1a1a1a;
+	--card: #fff8ee;
+	--muted: #ebe4d6;
+	--border: #756b5c;
+	--primary: #e4ae20;
+	--primary-foreground: #301018;
+	--accent-teal: #004d61;
+	--accent-forest: #3e5641;
+	--void: #1a1a1a;
 }
 
 @theme inline {
@@ -90,9 +94,6 @@ pre {
 	}
 }
 
-/* Rendered email bodies (reader, conversation cards, composer). Tailwind's
-   preflight strips list markers and blockquote styling, which both incoming
-   mail and the composer's own lists rely on. */
 .email-body ul {
 	list-style: disc;
 	padding-left: 1.5rem;
@@ -110,7 +111,7 @@ pre {
 	color: #525252;
 }
 .email-body a {
-	color: #2563eb;
+	color: #004d61;
 	text-decoration: underline;
 }
 .email-body p {
