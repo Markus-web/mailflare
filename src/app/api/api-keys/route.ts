@@ -10,7 +10,8 @@ import { newId } from "@/lib/ids";
 
 const createKeySchema = z.object({
 	name: z.string().min(1),
-	scopes: z.array(z.enum(["send", "read", "jmap"])).min(1),
+	// "accounts" scope: server-to-server mailbox provisioning (e.g. Kotisivu WP /tili/).
+	scopes: z.array(z.enum(["send", "read", "jmap", "accounts"])).min(1),
 });
 
 export async function GET(request: Request) {

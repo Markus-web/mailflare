@@ -43,6 +43,15 @@ export async function getLicenseStatus(env: CloudflareEnv): Promise<LicenseStatu
 }
 
 export async function getLicenseEntitlements(env: CloudflareEnv): Promise<LicenseEntitlements> {
+	// Self-hosted override (AGPL fork owner): grant entitlements without a Paymug
+	// license. Set MAILFLARE_LICENSE_OVERRIDE=team|pro on your own instance.
+	const override = String(env.MAILFLARE_LICENSE_OVERRIDE ?? "").trim().toLowerCase();
+	if (override === "team" || override === "all") {
+		return { plan: "team", canCustomizeBranding: true, canManageAccounts: true, canForwardEmail: true };
+	}
+	if (override === "pro") {
+		return { plan: "pro", canCustomizeBranding: true, canManageAccounts: false, canForwardEmail: true };
+	}
 	try {
 		const status = await getLicenseStatus(env);
 		// TODO: confirm Paymug's exact feature identifiers when they are documented; plan is authoritative meanwhile.

@@ -59,6 +59,9 @@
 		// self-registration OFF to match the legal/pricing pages and avoid
 		// @kotisivu.org impersonation. Landing then shows login only.
 		"ALLOW_PUBLIC_REGISTER": "false",
+		// Self-hosted AGPL fork: enable account management (admin UI + API-key
+		// provisioning from Kotisivu WP) without a Paymug Team license.
+		"MAILFLARE_LICENSE_OVERRIDE": "team",
 	},
 	"upload_source_maps": true,
 	"send_email": [

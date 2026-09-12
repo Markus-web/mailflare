@@ -21,7 +21,7 @@ export type CreateAccountResult = {
 
 export type CreateUserAccountInput = {
 	username: string;
-	domainId: string;
+	domainId?: string;
 	password: string;
 	role: "admin" | "user";
 };

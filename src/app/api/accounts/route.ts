@@ -7,6 +7,7 @@ import { newId } from "@/lib/ids";
 import { createUserAccountSchema } from "@/lib/validators";
 import { ensureEmailRoutingRuleToWorker } from "@/lib/cloudflare-api";
 import { ensureMailboxDomainRouting } from "@/lib/mailboxes/domain-addresses";
+import { getPrimaryDomain } from "@/lib/user";
 import type { CreateUserAccountInput } from "./types";
 import {
 	accountListItemFromUser,
@@ -36,7 +37,14 @@ export async function POST(request: Request) {
 
 	const input: CreateUserAccountInput = parsed.data;
 	const db = getDb(access.env);
-	const domain = await getDomainForAdmin(db, access.user!.id, input.domainId);
+	// Server-to-server callers (API key) may omit domainId → use the primary domain.
+	let domainId = input.domainId;
+	if (!domainId) {
+		const primary = await getPrimaryDomain(access.env);
+		domainId = primary?.id;
+	}
+	if (!domainId) return NextResponse.json({ error: "No domain configured" }, { status: 400 });
+	const domain = await getDomainForAdmin(db, access.user!.id, domainId);
 	if (!domain) return NextResponse.json({ error: "Domain not found" }, { status: 404 });
 	const username = input.username.toLowerCase().trim();
 	const email = `${username}@${domain.hostname}`;

@@ -2,8 +2,9 @@ import { and, desc, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import type { getDb } from "@/db";
 import { domains, mailboxes, users } from "@/db/schema";
-import { assertAdmin } from "@/lib/auth/admin";
+import { assertAdmin, isAdmin } from "@/lib/auth/admin";
 import { requireUser } from "@/lib/auth/cookies";
+import { authenticateApiRequest, hasScope } from "@/lib/api/key-auth";
 import { getLicenseEntitlements } from "@/lib/licenses/service";
 import { getEnv } from "@/lib/cloudflare";
 
@@ -70,6 +71,29 @@ export function accountListItemFromUser(user: {
 
 export async function requireTeamAdmin(request: Request) {
 	const env = getEnv();
+
+	// Server-to-server: a Bearer API key owned by an admin with the "accounts"
+	// scope may manage accounts (e.g. Kotisivu WP /tili/ mailbox provisioning).
+	// Session cookies carry no Authorization header, so the admin UI is unaffected.
+	try {
+		const apiAuth = await authenticateApiRequest(env, request);
+		if (apiAuth) {
+			if (!isAdmin(apiAuth.user) || !hasScope(apiAuth.scopes, "accounts")) {
+				return { env, user: null, error: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
+			}
+			if (!(await getLicenseEntitlements(env)).canManageAccounts) {
+				return {
+					env,
+					user: apiAuth.user,
+					error: NextResponse.json({ error: "A Team license is required to manage accounts" }, { status: 403 }),
+				};
+			}
+			return { env, user: apiAuth.user, error: null };
+		}
+	} catch {
+		// fall through to session auth
+	}
+
 	try {
 		const user = await requireUser(env, request);
 		assertAdmin(user);
